@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0d12" />
+  <meta name="description" content="优势罗盘通过20个情境判断，生成五维性格优势画像、个人分析与职业方向建议。" />
+  <title>优势罗盘｜看见你真正擅长的事</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="优势罗盘首页">
+      <span class="brand-mark" aria-hidden="true">⌁</span>
+      <span>优势罗盘</span>
+    </a>
+    <div class="top-meta">
+      <span>20个情境</span><i></i><span>约4分钟</span>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro" class="screen intro-screen">
+      <div class="intro-copy">
+        <p class="eyebrow">PERSONAL STRENGTHS PROFILE</p>
+        <h1>你不必成为所有人。<br /><em>先看见你真正擅长的事。</em></h1>
+        <p class="lead">从深度洞察、目标行动、人际感知、系统秩序和开放探索五个维度，看见你的性格底色与职业能量。</p>
+        <div class="mini-proof" aria-label="产品特点">
+          <span><b>01</b> 情境式作答</span>
+          <span><b>02</b> 五维性格图谱</span>
+          <span><b>03</b> 10种优势类型</span>
+        </div>
+      </div>
+
+      <div class="start-card">
+        <div class="card-index">开始前，留下两个信息</div>
+        <label class="field">
+          <span>结果中如何称呼你</span>
+          <input id="displayName" type="text" maxlength="12" placeholder="例如：小岚（可不填）" autocomplete="nickname" />
+        </label>
+        <fieldset class="context-picker">
+          <legend>你最想在哪个场景了解自己</legend>
+          <label><input type="radio" name="context" value="职场" checked /><span>职场</span></label>
+          <label><input type="radio" name="context" value="学习" /><span>学习</span></label>
+          <label><input type="radio" name="context" value="创业" /><span>创业</span></label>
+          <label><input type="radio" name="context" value="生活" /><span>生活</span></label>
+        </fieldset>
+        <label class="legal-consent">
+          <input id="legalConsent" type="checkbox" />
+          <span>我已阅读并同意<a href="./disclaimer.html" target="_blank" rel="noopener">非临床测评声明</a>和<a href="./privacy.html" target="_blank" rel="noopener">隐私政策</a></span>
+        </label>
+        <button id="startBtn" class="primary-btn" type="button" disabled>开始探索 <span>→</span></button>
+        <p class="privacy-note">昵称、答案和结果仅保存在当前设备。清除浏览器数据或重新测试即可删除。</p>
+      </div>
+    </section>
+
+    <section id="quiz" class="screen quiz-screen is-hidden" aria-live="polite">
+      <div class="quiz-head">
+        <button id="exitBtn" class="text-btn" type="button">退出</button>
+        <div class="progress-wrap">
+          <div class="progress-copy"><span id="progressLabel">01 / 20</span><span id="progressPercent">5%</span></div>
+          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+        </div>
+      </div>
+      <article class="question-card">
+        <p id="questionTag" class="question-tag">判断与你的真实状态是否相符</p>
+        <h2 id="questionText"></h2>
+        <div id="answerScale" class="answer-scale" role="radiogroup" aria-label="符合程度"></div>
+        <p class="answer-hint"><span>更不像我</span><span>更像我</span></p>
+      </article>
+      <div class="quiz-actions">
+        <button id="backBtn" class="secondary-btn" type="button">上一题</button>
+        <button id="nextBtn" class="primary-btn" type="button" disabled>下一题 <span>→</span></button>
+      </div>
+    </section>
+
+    <section id="result" class="screen result-screen is-hidden">
+      <div class="result-hero">
+        <div class="result-kicker">你的性格优势类型</div>
+        <h1 id="archetypeName">系统思考者</h1>
+        <p id="archetypeLine" class="archetype-line"></p>
+        <div class="hero-actions">
+          <button id="shareBtn" class="primary-btn" type="button">生成结果卡片</button>
+          <button id="restartBtn" class="secondary-btn" type="button">重新测试</button>
+        </div>
+      </div>
+
+      <div class="report-grid">
+        <section class="report-card profile-card">
+          <div class="section-label">01 / 五维性格图谱</div>
+          <div class="trait-visual">
+            <svg id="personalityRadar" class="personality-radar" viewBox="0 0 440 440" role="img" aria-label="五维性格特征强度雷达图"></svg>
+            <div id="traitLegend" class="trait-legend"></div>
+          </div>
+          <p class="score-note">百分比表示本次答案中的特征强度，不代表在人群中的排名。</p>
+        </section>
+        <section class="report-card personality-card">
+          <div class="section-label">02 / 性格底色</div>
+          <div id="personalitySummary" class="personality-summary"></div>
+        </section>
+      </div>
+
+      <section class="career-panel">
+        <div class="section-label">03 / 适合你的职业方向</div>
+        <div class="career-layout">
+          <div><h2>更容易发挥优势的方向</h2><div id="careerDirections" class="career-tags"></div></div>
+          <div><h2>你偏好的工作类型</h2><div id="workTypes" class="work-type-list"></div></div>
+        </div>
+        <p class="career-note">职业建议基于优势组合，用于拓展选择思路；实际决策还应结合能力、经验、价值观与现实机会。</p>
+      </section>
+
+      <section id="unlockPanel" class="unlock-panel">
+        <div>
+          <p class="eyebrow">FULL PERSONAL MANUAL</p>
+          <h2>知道优势是什么，还不够。<br />更重要的是知道如何使用它。</h2>
+          <p>完整报告将进一步解释你的行为模式、压力反应、优势证据、职业适配、协作方式与30天行动建议。</p>
+        </div>
+        <div class="price-box">
+          <span class="price-note">一次解锁 · 永久查看</span>
+          <div class="price"><small>¥</small>9.9</div>
+          <button id="unlockBtn" class="primary-btn" type="button">解锁完整说明书</button>
+          <span>支持配置微信支付或其他收款接口</span>
+        </div>
+      </section>
+
+      <div id="fullReport" class="full-report is-hidden">
+        <section class="manual-heading">
+          <p>PERSONAL MANUAL · <span id="reportDate"></span></p>
+          <h2><span id="reportName">你的</span>个人优势说明书</h2>
+        </section>
+        <div id="manualSections" class="manual-sections"></div>
+        <div class="report-end">
+          <span class="brand-mark">⌁</span>
+          <p>优势不是一个标签，而是你在恰当环境中反复创造价值的方式。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="checkoutDialog" class="checkout-dialog">
+    <button id="closeDialog" class="dialog-close" aria-label="关闭" type="button">×</button>
+    <p class="eyebrow">解锁完整说明书</p>
+    <h2>¥9.9</h2>
+    <ul>
+      <li>完整五维性格画像</li>
+      <li>行为模式与压力反应</li>
+      <li>职业方向与工作类型</li>
+      <li>专属30天行动建议</li>
+    </ul>
+    <button class="pay-btn" type="button" disabled>微信支付 · 接口待配置</button>
+    <button id="demoUnlock" class="demo-btn" type="button">先体验完整报告</button>
+    <p class="dialog-note">当前为公开体验版，尚未开放真实支付。正式付款前，用户需确认数字内容即时交付方式与<a href="./refund.html" target="_blank" rel="noopener">退款规则</a>。</p>
+  </dialog>
+
+  <dialog id="shareDialog" class="share-dialog">
+    <button id="closeShareDialog" class="dialog-close" aria-label="关闭" type="button">×</button>
+    <p class="eyebrow">你的专属结果卡片</p>
+    <div id="shareLoading" class="share-loading">正在生成卡片…</div>
+    <img id="sharePreview" class="share-preview is-hidden" alt="优势罗盘结果卡片预览" />
+    <button id="downloadCard" class="primary-btn" type="button" disabled>下载卡片</button>
+    <p class="dialog-note">可保存后分享给朋友。卡片只包含昵称、性格类型与五维特征，不包含答题内容。</p>
+  </dialog>
+
+  <canvas id="shareCanvas" width="1080" height="1350" hidden></canvas>
+  <footer>
+    <span>优势罗盘 · 个人成长工具</span>
+    <nav class="legal-links" aria-label="政策链接">
+      <a href="./disclaimer.html">非临床测评声明</a>
+      <a href="./privacy.html">隐私政策</a>
+      <a href="./refund.html">退款规则</a>
+    </nav>
+  </footer>
+  <script src="./app.js"></script>
+</body>
+</html>
